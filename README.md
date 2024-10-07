@@ -1,1 +1,1 @@
-Aplicativo De Receitas Com VSCODE, HTML, CSS e Javascript
+##Aplicativo De Receitas Com VSCODE, HTML, CSS e Javascript ✨
