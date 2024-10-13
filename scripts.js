@@ -3,7 +3,7 @@
 
 [x] Pegar a informação do Input, quando o botão for clicado
 [x] Ir até a API e trazer as receitas 
-[] Colocar as receitas na tela
+[x] Colocar as receitas na tela
 [] Saber qundo o usuário clicou em uma receita
 [] Buscar informações da receita individual na API
 [] Colocar a receita individual na tela
