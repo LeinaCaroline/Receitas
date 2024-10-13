@@ -11,8 +11,9 @@
 
 // isso busca no html a informação
 const form = document.querySelector('.search_form')
+const recipeList = document.querySelector('.recipe_list') // ele procura esse recipe_list
 
-form.addEventListener('submit', function(event){
+form.addEventListener('submit', function (event) {
     event.preventDefault() // previne a atualização desnecessária
 
     const inputValue = event.target[0].value
@@ -24,10 +25,22 @@ form.addEventListener('submit', function(event){
 })
 
 
-async function searchRecipes(ingredient){
+async function searchRecipes(ingredient) {
     const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`)
     const data = await response.json()
-    console.log(data)
+
+    //console.log(data)
+    showRecipes(data.meals)
 }
 
 
+function showRecipes(recipes) {  //tempate string pq dá pra pular linha
+    recipeList.innerHTML = recipes.map(item => `  
+        <div class="recipe-card">
+           <img src="${item.strMealThumb}" alt ="receita-foto"> 
+           <h3>${item.strMeal}</h3>
+        </div>
+        
+        `).join('')
+
+}// estilizando o recipe-card no css
