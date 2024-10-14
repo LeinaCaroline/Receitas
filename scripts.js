@@ -4,7 +4,7 @@
 [x] Pegar a informação do Input, quando o botão for clicado
 [x] Ir até a API e trazer as receitas 
 [x] Colocar as receitas na tela
-[] Saber qundo o usuário clicou em uma receita
+[x] Saber qundo o usuário clicou em uma receita
 [] Buscar informações da receita individual na API
 [] Colocar a receita individual na tela
  */
@@ -12,6 +12,7 @@
 // isso busca no html a informação
 const form = document.querySelector('.search_form')
 const recipeList = document.querySelector('.recipe_list') // ele procura esse recipe_list
+const recipe_details = document.querySelector('.recipe_details')
 
 form.addEventListener('submit', function (event) {
     event.preventDefault() // previne a atualização desnecessária
@@ -25,7 +26,7 @@ form.addEventListener('submit', function (event) {
 })
 
 
-//Mapear isso para essa função para github
+//Mapear isso para essa função para github  - Pesquisa a receita pelo input
 async function searchRecipes(ingredient) {
     const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`,)
     const data = await response.json() //transformando em json
@@ -35,7 +36,7 @@ async function searchRecipes(ingredient) {
 }
 
 
-function showRecipes(recipes) {  //tempate string pq dá pra pular linha
+function showRecipes(recipes) {  //tempate string pq dá pra pular linha - Vemos a receita na tela
     recipeList.innerHTML = recipes.map(item => `  
         <div class="recipe-card" onclick="getRecipesDetails(${item.idMeal})">
            <img src="${item.strMealThumb}" alt ="receita-foto"> 
@@ -47,11 +48,42 @@ function showRecipes(recipes) {  //tempate string pq dá pra pular linha
 }// estilizando o recipe-card no css
 
 
+//quando o usuário clica na receita - vamos ver mais detalhes da receita
 async function getRecipesDetails(id) {
     const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,)
     const data = await response.json() //transformando em json
 
-    const recipes = data.meals[0]
+    const recipe = data.meals[0]
 
     console.log(data)
+
+    let ingredients = ''  
+
+    for(let i=1; i<=20; i++){
+        if(recipe[`strIngredient${i}`]){
+            ingredients+= `<li>${recipe[`strIngredient${i}`]} - ${recipe[`strMeasure${i}`]}</li>`
+        }else{
+            break;
+        }
+    }
+
+    //  target="_blank" sempre abre o linck em uma nova aba do meu navegador
+    recipe_details.innerHTML = `
+    <h1>${recipe.strMeal}</h1>
+    <img src= "${recipe.strMealThumb}" alt= "${recipe.strMeal} class = "resipe.img">
+    <h3> Categoria: ${recipe.strCategory}</h3>
+    <h3> Origem: ${recipe.strArea}</h3>
+    <h3>Ingredientes: </h3>
+    <ul>${ingredients}</ul>
+    <h3>Instruções: </h3>
+    <p>${recipe.strInstructions}</p>
+    <p> Tags: ${recipe.strTags}</p>
+    <p>Vídeo: <a href= "${recipe.strYouTube}" target="_blank"> Assista no YouTube</a>${recipe.strTags}</p>
+
+    
+    
+    `
+
+
+
 }

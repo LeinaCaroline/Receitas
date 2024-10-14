@@ -72,3 +72,15 @@ h1{
     object-fit: cover;
     border-radius: 5px;
 }
+
+
+.recipe_details{
+    margin-top: 20px
+}
+
+.recipe_details img{
+    width: 100%;
+    max-width: 300px;
+    object-fit: cover;
+    border-radius: 5px;
+}
