@@ -25,9 +25,10 @@ form.addEventListener('submit', function (event) {
 })
 
 
+//Mapear isso para essa função para github
 async function searchRecipes(ingredient) {
-    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`)
-    const data = await response.json()
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`,)
+    const data = await response.json() //transformando em json
 
     //console.log(data)
     showRecipes(data.meals)
@@ -36,7 +37,7 @@ async function searchRecipes(ingredient) {
 
 function showRecipes(recipes) {  //tempate string pq dá pra pular linha
     recipeList.innerHTML = recipes.map(item => `  
-        <div class="recipe-card">
+        <div class="recipe-card" onclick="getRecipesDetails(${item.idMeal})">
            <img src="${item.strMealThumb}" alt ="receita-foto"> 
            <h3>${item.strMeal}</h3>
         </div>
@@ -44,3 +45,13 @@ function showRecipes(recipes) {  //tempate string pq dá pra pular linha
         `).join('')
 
 }// estilizando o recipe-card no css
+
+
+async function getRecipesDetails(id) {
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,)
+    const data = await response.json() //transformando em json
+
+    const recipes = data.meals[0]
+
+    console.log(data)
+}
