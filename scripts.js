@@ -5,8 +5,8 @@
 [x] Ir até a API e trazer as receitas 
 [x] Colocar as receitas na tela
 [x] Saber qundo o usuário clicou em uma receita
-[] Buscar informações da receita individual na API
-[] Colocar a receita individual na tela
+[x] Buscar informações da receita individual na API
+[x] Colocar a receita individual na tela
  */
 
 // isso busca no html a informação
@@ -29,10 +29,17 @@ form.addEventListener('submit', function (event) {
 //Mapear isso para essa função para github  - Pesquisa a receita pelo input
 async function searchRecipes(ingredient) {
     const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`,)
-    const data = await response.json() //transformando em json
 
-    //console.log(data)
-    showRecipes(data.meals)
+
+    recipeList.innerHTML = `<P>Carregando receitas ... </P>`
+    try{const data = await response.json() //transformando em json
+
+        //console.log(data)
+        showRecipes(data.meals)
+    }catch(err){
+        recipeList.innerHTML = `<P>Nenhuma receita encontrada</P>`
+    }
+    
 }
 
 
